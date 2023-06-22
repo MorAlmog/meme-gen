@@ -63,15 +63,28 @@ function drawImage() {
 function drawText() {
     const space = 50
     gCtx.font = '48px Impact'
+    gCtx.strokeStyle = 'black'
+    gCtx.fillStyle = 'white'
+    gCtx.lineWidth = 2
     let txt = getMemeText()
     gCtx.textAlign = 'center'
     let x = gCanvas.width / 2
     // let y = 50
     let y = gCanvas.height / 2
     console.log('size of canvas:', x, y);
-    gCtx.fillText(txt, x, y)
-    gCtx.fillText(txt, x, gCanvas.height - space/2)
+    // gCtx.fillText(txt, x, y)
+    // gCtx.strokeText(txt, x, y)
+    // gCtx.fillText(txt, x, gCanvas.height - space/2)
+    // gCtx.strokeText(txt, x, gCanvas.height - space/2)
     gCtx.fillText(txt, x, space)
+    gCtx.strokeText(txt, x, space)
+}
+
+
+function downloadCanvas(elLink) {
+    const data = gCanvas.toDataURL()
+    elLink.href = data
+    elLink.download = 'meme-review(clap-clap)'
 }
 
 // function drawText(x, y, text= 'Hello!') {

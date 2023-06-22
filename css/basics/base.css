@@ -4,7 +4,7 @@
 }
 
 html {
-    font-family: Geka;
+    font-family: monospace;
 }
 
 body {
@@ -17,4 +17,5 @@ a {
 
 canvas {
     border: solid black 1px;
+    background-color: white;
 }
