@@ -1,0 +1,16 @@
+/* logo font */
+/* @font-face {
+    font-family: eurofurence;
+    src: url('/fonts/eurofurence/eurof55.ttf');
+} */
+
+/* meme font */
+@font-face {
+    font-family: Impact;
+    src: url('src/fonts/impact.ttf')
+}
+
+@font-face {
+    font-family: Suez;
+    src: url('src/fonts/SuezOne-Regular.ttf')
+}

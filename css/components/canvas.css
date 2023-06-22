@@ -1,0 +1,11 @@
+canvas {
+    background-color: rgb(97, 97, 194);
+    border: solid black 1px;
+    /* font-family: Roboto; */
+}
+
+.canvas-container {
+    width: 80vw;
+    height: 90vh;
+    margin-inline: auto;
+}

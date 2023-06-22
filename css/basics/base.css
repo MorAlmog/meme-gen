@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+html {
+    font-family: Geka;
+}
+
+body {
+    margin: 0;
+}
+
+a {
+    cursor: pointer;
+}
+
+canvas {
+    border: solid black 1px;
+}

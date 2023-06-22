@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Document</title>
+</head>
+<body onload="onInit()">
+
+    <!-- <input type="file" class="file-input btn" name="image" onchange="onImgInput(event)" accept="image/*"/> -->
+
+    <header class="main-header flex space-between align-center">
+        <div class="logo">LOGO</div>
+        <nav class="main-nav-container">
+            <ul class="main-nav flex clean-list">
+                <!-- TODO: add helpers, touppercase -->
+                <a onclick="toggleHidden('gallery')" href="#gallery"><li>galley</li></a>
+                <a onclick="toggleHidden('memes')" href="#memes"><li>memes</li></a>
+                <a onclick="toggleHidden('about')" href="#about"><li>about</li></a>
+                <!-- <a onclick="onShowSection('gallery')" href="#gallery"><li>galley</li></a>
+                <a onclick="onShowSection('memes')" href="#memes"><li>memes</li></a>
+                <a onclick="onShowSection('about')" href="#about"><li>about</li></a> -->
+            </ul>
+        </nav>
+        <!-- <button class="btn-toggle-menu" onclick="toggleMenu()">☰</button> -->
+    </header>
+    
+    <!-- MEME GENERATOR -->
+    <section class="centered" id="memes">
+        
+        <div class="bar">
+            <input type="text" placeholder="Text" value="" oninput="onGetText(this.value)"/>
+        </div>
+
+        <!-- CANVAS -->
+        <div class="canvas-container">
+            <canvas class="canvas" height="500" width="500"></canvas>
+        </div>
+
+    </section>
+
+    <!-- GALLERY -->
+    <section class="grid hidden" id="gallery">
+        <h1>HELLO</h1>
+        <div class="gallery-container card-layout">
+            <!-- <div class="card">
+                <img onclick="onGetImg(this, 1)" src="src/img/cat-01.jpg" class="card-img">
+            </div>
+            <div class="card">
+                <img onclick="onGetImg(this, 3)" src="src/img/x-everywhere.jpg" class="card-img">
+            </div> -->
+        </div>
+
+    </section>
+
+    <!-- ABOUT -->
+    <section class="centered hidden" id="about">
+        <h1>ABOUT</h1>
+    </section>
+
+    <script src="js/services/gallery.service.js"></script>
+    <script src="js/services/meme.service.js"></script>
+    <script src="js/gallery.control.js"></script>
+    <script src="js/meme.control.js"></script>
+</body>
+</html>
