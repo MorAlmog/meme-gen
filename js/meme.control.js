@@ -1,12 +1,18 @@
 'use strict'
 
 let gCtx, gCanvas
-let gCurrShown = 'memes'
+let gCurrShown = 'gallery'
 
 function onInit() {
     gCanvas = document.querySelector('canvas')
     gCtx = gCanvas.getContext('2d')
     renderGallery()
+    renderFontSelection()
+}
+
+function renderMemeButtons() {
+    let symbol = org.apache.commons.text.StringEscapeUtils.unescapeJava( "\\" + "u2764" + "\\" + "uFE0F" )
+    document.querySelector('.text-align-left').innerText = 'symbol'
 }
 
 function toggleHidden(sectionId) {
@@ -17,18 +23,8 @@ function toggleHidden(sectionId) {
 }
 
 function onGetText(txt) {
-    console.log('OnGetText');
     setMemeText(txt)
-    clearCanvas()
     drawCanvas()
-    // gCtx.lineWidth = 2
-    // // gCtx.strokeStyle = 'brown'
-    // // gCtx.fillStyle = 'black'
-    // gCtx.font = '40px Roboto bold'
-    // gCtx.textAlign = 'center'
-    // gCtx.textBaseline = 'middle'
-
-    // gCtx.fillText(getMemeText(), 150, 150) // Draws (fills) a given text at the given (x, y) position.
 }
 
 function clearCanvas() {
@@ -37,49 +33,54 @@ function clearCanvas() {
 
 function drawCanvas() {
     const success = drawImage()
-    if (!success) drawText() 
+    if (!success && getMemeLines().length) drawText() 
 }
 
 // returns true if drawing was succeful and false if an issue accured
 // failure accures when no image was chosen, or when image failed to load
 function drawImage() {
     const imgId = getMemeImgId()
+
     if (imgId) {
         let elImg = new Image()
         const img = getImgById(imgId)
         elImg.src = img.imgUrl
-        console.log(elImg.src);
+
         elImg.onload = () => {
+
+            // scale canvas
             gCanvas.height = (elImg.naturalHeight / elImg.naturalWidth) * gCanvas.width
+            // draw image
             gCtx.drawImage(elImg, 0, 0, gCanvas.width, gCanvas.height)
+
+            // if there is no text input, return
+            if (!getMemeLines().length) return true
+
+            // if there is, draw user's input and return
             drawText()
             return true
+
         }
-        return false
+
     }
+
+    // if no image or failure during onload, return indication
     return false
 }
 
 function drawText() {
+
+    if (!getMemeImgId()) clearCanvas()
+    
+    setTextPreferences()
     const space = 50
-    gCtx.font = '48px Impact'
-    gCtx.strokeStyle = 'black'
-    gCtx.fillStyle = 'white'
-    gCtx.lineWidth = 2
     let txt = getMemeText()
-    gCtx.textAlign = 'center'
-    let x = gCanvas.width / 2
-    // let y = 50
+    let x = calculateAxisX()
     let y = gCanvas.height / 2
     console.log('size of canvas:', x, y);
-    // gCtx.fillText(txt, x, y)
-    // gCtx.strokeText(txt, x, y)
-    // gCtx.fillText(txt, x, gCanvas.height - space/2)
-    // gCtx.strokeText(txt, x, gCanvas.height - space/2)
     gCtx.fillText(txt, x, space)
     gCtx.strokeText(txt, x, space)
 }
-
 
 function downloadCanvas(elLink) {
     const data = gCanvas.toDataURL()
@@ -87,34 +88,28 @@ function downloadCanvas(elLink) {
     elLink.download = 'meme-review(clap-clap)'
 }
 
-// function drawText(x, y, text= 'Hello!') {
-//     console.log('Draw Text');
-//     gCtx.lineWidth = 2
-//     // gCtx.strokeStyle = 'brown'
-//     // gCtx.fillStyle = 'black'
-//     gCtx.font = '40px Roboto bold'
-//     gCtx.textAlign = 'center'
-//     gCtx.textBaseline = 'middle'
+function setTextPreferences() {
+    gCtx.font = `${getMemeTextSize()}px ${getMemeFont()}`
+    gCtx.strokeStyle = getMemeTextStrokeColour()
+    gCtx.fillStyle = getMemeTextColour()
+    gCtx.lineWidth = 2
+    gCtx.textAlign = getMemeTextAlign()
 
-//     gCtx.fillText(text, x, y) // Draws (fills) a given text at the given (x, y) position.
-//     gCtx.strokeText(text, x, y) // Draws (strokes) a given text at the given (x, y) position.
-// }
+}
 
-// function drawImage() {
-//     const imgId = getMemeImgId()
-//     if (imgId) {
-//         let elImg = new Image()
-//         const img = getImgById(imgId)
-//         elImg.src = img.imgUrl
-//         // console.log('img height', elImg.naturalHeight, 'img width' , elImg.naturalWidth);
-//         // console.log('canvas height', gCanvas.height, 'canvas width', gCanvas.width);
-//         elImg.onload = () => {
-//             gCanvas.height = (elImg.naturalHeight / elImg.naturalWidth) * gCanvas.width
-//             gCtx.drawImage(elImg, 0, 0)
-//             drawText()
-//             return true
-//         }
-//         return false
-//     }
-//     return false
-// }
+function calculateAxisX() {
+    let x, space = 15
+    
+    switch (gCtx.textAlign) {
+        case 'right':
+            x = gCanvas.width - space
+            break
+        case 'left':
+            x = space
+            break
+        case 'center':
+            x = gCanvas.width / 2
+    }
+    
+    return x
+}

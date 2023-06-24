@@ -1,12 +1,17 @@
 'use strict'
 
 var gMeme = createMemeObj()
+var gFonts = [
+    'Impact', 'Suez', 'Infinity', 'Anton',
+]
 
 function createMemeObj() {
     return {
         selectedImgId: NaN,
         selectedLineIdx: 0,
         lines: [],
+        align: 'center',
+        font: 'Impact'
     }
 }
 
@@ -18,12 +23,17 @@ function generateLines() {
     ]
 }
 
-function createLine(txt, colour = '#eeeeee', size = 20) {
+function createLine(txt, colour = '#ffffff', strokeColour = '#000000', font = 'Impact', size = 36) {
     return {
         txt,
         size,
-        colour
+        colour,
+        strokeColour,
     }
+}
+
+function getFontsObj() {
+    return gFonts
 }
 
 function getMemeImgId() {
@@ -38,23 +48,61 @@ function getMemeLines() {
     return gMeme.lines
 }
 
-function getMemeText(lineIdx = 0) {
+function addMeMeLine(txt, colour, strokeColour) {
+    const line = createLine(txt, colour, strokeColour)
+    gMeme.lines.push(line)
+    gMeme.selectedLineIdx++
+}
+
+function getMemeText(lineIdx = gMeme.selectedLineIdx) {
     if (!gMeme.lines.length || !gMeme.lines) return ''
 
     return gMeme.lines[lineIdx].txt
 }
 
-function setMemeText(txt, lineIdx = 0) {
+function setMemeText(txt, lineIdx = gMeme.selectedLineIdx) {
     if (!gMeme.lines[lineIdx]) {
         gMeme.lines[lineIdx] = createLine(txt)
     }
     else gMeme.lines[lineIdx].txt = txt
 }
 
-function setMemeTextSize(size, lineIdx = 0) {
+function setMemeTextSize(size, lineIdx = gMeme.selectedLineIdx) {
     gMeme.lines[lineIdx].size = size
 }
 
-function setMemeTextColour(colour, lineIdx = 0) {
+function getMemeTextSize(lineIdx = gMeme.selectedLineIdx) {
+    return gMeme.lines[lineIdx].size
+}
+
+function getMemeTextColour(lineIdx = gMeme.selectedLineIdx) {
+    return gMeme.lines[lineIdx].colour
+}
+
+function setMemeTextColour(colour, lineIdx = gMeme.selectedLineIdx) {
     gMeme.lines[lineIdx].colour = colour
+}
+
+function getMemeTextStrokeColour(lineIdx = gMeme.selectedLineIdx) {
+    return gMeme.lines[lineIdx].strokeColour
+}
+
+function setMemeTextStrokeColour(colour, lineIdx = gMeme.selectedLineIdx) {
+    gMeme.lines[lineIdx].strokeColour = colour
+}
+
+function getMemeFont(lineIdx = gMeme.selectedLineIdx) {
+    return gMeme.font
+}
+
+function setMemeFont(font, lineIdx = gMeme.selectedLineIdx) {
+    gMeme.font = font
+}
+
+function getMemeTextAlign() {
+    return gMeme.align
+}
+
+function setMemeTextAlign(align) {
+    gMeme.align = align
 }

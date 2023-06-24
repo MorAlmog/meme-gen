@@ -3,35 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/2975d5ad2b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/styles.css">
-    <title>Document</title>
+    <title>Meme Generator</title>
 </head>
-<body onload="onInit()">
+<body class="main-layout" onload="onInit()">
 
     <!-- <input type="file" class="file-input btn" name="image" onchange="onImgInput(event)" accept="image/*"/> -->
 
     <header class="main-header flex space-between align-center">
-        <div class="logo">LOGO</div>
+        <div class="logo">Meme Generator</div>
         <nav class="main-nav-container">
             <ul class="main-nav flex clean-list">
-                <!-- TODO: add helpers, touppercase -->
-                <a onclick="toggleHidden('gallery')" href="#gallery"><li>galley</li></a>
-                <a onclick="toggleHidden('memes')" href="#memes"><li>memes</li></a>
-                <a onclick="toggleHidden('about')" href="#about"><li>about</li></a>
-                <!-- <a onclick="onShowSection('gallery')" href="#gallery"><li>galley</li></a>
-                <a onclick="onShowSection('memes')" href="#memes"><li>memes</li></a>
-                <a onclick="onShowSection('about')" href="#about"><li>about</li></a> -->
+                <a onclick="toggleHidden('gallery')" href="#"><li>gallery</li></a>
+                <a onclick="toggleHidden('memes')" href="#"><li>memes</li></a>
+                <a onclick="toggleHidden('about')" href="#"><li>about</li></a>
             </ul>
         </nav>
         <!-- <button class="btn-toggle-menu" onclick="toggleMenu()">☰</button> -->
     </header>
     
+    </br>
+    </br>
+
     <!-- MEME GENERATOR -->
-    <section class="centered" id="memes">
+    <section class="meme-editor-container hidden centered" id="memes">
         
-        <div class="bar">
-            <input type="text" placeholder="Text" value="" oninput="onGetText(this.value)"/>
+        <div class="editor">
+
+            <!-- text -->
+            <input type="text" class="text-input" placeholder="Text" value="" oninput="onGetText(this.value)"/>
+
+            <!-- text colours -->
+            <input title="Inner Text Colour" type="color" value="#ffffff" class="inner-text-colour pointer" oninput="onSetTextColour(this.value)"/>
+            <input title="Outer Text Colour" type="color" value="#000000" class="stroke-text-colour pointer" oninput="onSetTextStrokeColour(this.value)"/>
+
+            <!-- font -->
+            <select class="font-selection pointer" value="Impact" oninput="onSetFont(this.value)">
+                <option>Impact</option>
+            </select>
+
+            <!-- font size -->
+            <button title="Increase Text Size" class="text-size-up pointer" onclick="onChangeTextSize(4)"><i class="fa-solid fa-font"></i>+</button>
+            <button title="Decrease Text Size" class="text-size-down pointer" onclick="onChangeTextSize(-4)"><i class="fa-solid fa-font"></i>-</button>
+
+            <!-- add lines -->
+            <button title="Add Another Text Line" class="add-line pointer" onclick="onAddLine()"><i class="fa-solid fa-plus"></i></button>
+
+            <!-- text align -->
+            <button title="Text Align Left" class="button text-align-left pointer" onclick="onSetAlignText('left')"><i class="fa-solid fa-align-left"></i></button>
+            <button title="Text Align Center" class="button text-align-center pointer" onclick="onSetAlignText('center')"><i class="fa-solid fa-align-center"></i></button>
+            <button title="Text Align Right" class="button text-align-right pointer" onclick="onSetAlignText('right')"><i class="fa-solid fa-align-right"></i></button>
+            
+            <!-- download meme -->
+            <button><a href="#" onclick="downloadCanvas(this)" class="pointer" title="meme review 👏👏" download="best-meme"><i class="fa-solid fa-download"></i></a></button>
+
         </div>
+
+        </br>
 
         <!-- CANVAS -->
         <div class="canvas-container">
@@ -39,13 +68,12 @@
         </div>
     
         </br>
-        <a href="#" onclick="downloadCanvas(this)" download="file-name">Download Meme</a>
 
     </section>
 
     <!-- GALLERY -->
-    <section class="grid hidden" id="gallery">
-        <h1>HELLO</h1>
+    </br>
+    <section class="grid" id="gallery">
         <div class="gallery-container card-layout">
             <!-- GALLERY -->
         </div>
@@ -60,6 +88,7 @@
 
     <script src="js/services/gallery.service.js"></script>
     <script src="js/services/meme.service.js"></script>
+    <script src="js/editor.control.js"></script>
     <script src="js/gallery.control.js"></script>
     <script src="js/meme.control.js"></script>
 </body>
