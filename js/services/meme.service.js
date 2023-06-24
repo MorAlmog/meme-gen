@@ -29,6 +29,7 @@ function createLine(txt, colour = '#ffffff', strokeColour = '#000000', font = 'I
         size,
         colour,
         strokeColour,
+        area: undefined
     }
 }
 
@@ -73,6 +74,14 @@ function setMemeTextSize(size, lineIdx = gMeme.selectedLineIdx) {
 
 function getMemeTextSize(lineIdx = gMeme.selectedLineIdx) {
     return gMeme.lines[lineIdx].size
+}
+
+function setTextArea(x1, x2, y1, y2, lineIdx = gMeme.selectedLineIdx) {
+    gMeme.lines[lineIdx].area = [x1, x2, y1, y2]
+}
+
+function getTextArea(lineIdx = gMeme.selectedLineIdx) {
+    return gMeme.lines[lineIdx].area
 }
 
 function getMemeTextColour(lineIdx = gMeme.selectedLineIdx) {

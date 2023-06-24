@@ -52,6 +52,16 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+// random colour
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'
+    var color = '#'
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)]
+    }
+    return color
+}
+
 // returns x mod n (in range [0, ..., n-1])
 function posModn(x, n) {
     if (x < 0) return posModn(x + n, n)

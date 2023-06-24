@@ -10,9 +10,13 @@ function renderFontSelection() {
 }
 
 function onAddLine() {
+
+    document.querySelector('.text-input').value = ''
+
     const colour = document.querySelector('.inner-text-colour').value
     const strokeColour = document.querySelector('.stroke-text-colour').value
     const txt = 'New Line'
+    
     addMeMeLine(txt, colour, strokeColour)
 }
 
@@ -43,4 +47,8 @@ function onSetFont(font) {
     setMemeFont(font)
     console.log(getMemeFont());
     if (getMemeImgId() || getMemeLines().length) drawCanvas()
+}
+
+function onChangeLogoColour(elLogo) {
+    elLogo.style.color = getRandomColor()
 }

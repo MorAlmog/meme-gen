@@ -10,16 +10,10 @@ function onInit() {
     renderFontSelection()
 }
 
-function renderMemeButtons() {
-    let symbol = org.apache.commons.text.StringEscapeUtils.unescapeJava( "\\" + "u2764" + "\\" + "uFE0F" )
-    document.querySelector('.text-align-left').innerText = 'symbol'
-}
-
 function toggleHidden(sectionId) {
     document.getElementById(sectionId).classList.toggle('hidden')
     document.getElementById(gCurrShown).classList.toggle('hidden')
     gCurrShown = sectionId
-    console.log(gCurrShown);
 }
 
 function onGetText(txt) {
@@ -71,15 +65,16 @@ function drawImage() {
 function drawText() {
 
     if (!getMemeImgId()) clearCanvas()
-    
     setTextPreferences()
-    const space = 50
-    let txt = getMemeText()
-    let x = calculateAxisX()
-    let y = gCanvas.height / 2
-    console.log('size of canvas:', x, y);
-    gCtx.fillText(txt, x, space)
-    gCtx.strokeText(txt, x, space)
+
+    const lines = getMemeLines()
+    for (let i = 0 ; i < lines.length ; i++) {
+        let txt = getMemeText(i)
+        let x = calculateAxisX()
+        let y = calculateAxisY(i)
+        gCtx.fillText(txt, x, y)
+        gCtx.strokeText(txt, x, y)
+    }
 }
 
 function downloadCanvas(elLink) {
@@ -97,6 +92,25 @@ function setTextPreferences() {
 
 }
 
+function calculateAxisY(idx) {
+    let y
+    const space = 50
+    switch (idx) {
+        case 0:
+            y = space
+            break
+        case 1:
+            y = gCanvas.height - space/2
+            break
+        case 2:
+            y = gCanvas.height / 2
+            break
+        default:
+            y = gCanvas.height / 4
+    }
+    return y
+}
+
 function calculateAxisX() {
     let x, space = 15
     
@@ -112,4 +126,14 @@ function calculateAxisX() {
     }
     
     return x
+}
+
+function calculateTextArea(txt) {
+    const metrics = gCtx.measureText(txt)
+    let x1, x2, y1, y2
+    x1 = metrics.actualBoundingBoxLeft
+    x2 = metrics.actualBoundingBoxRight
+    y1 = metrics.fontBoundingBoxDescent
+    y2 = metrics.fontBoundingBoxAscent
+    setTextArea(x1, x2, y1, y2)
 }
