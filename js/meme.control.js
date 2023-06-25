@@ -31,7 +31,7 @@ function clearCanvas() {
 
 function drawCanvas() {
     const success = drawImage()
-    if (!success && getMemeLines().length) drawText() 
+    if (!success) drawText() 
 }
 
 // returns true if drawing was succeful and false if an issue accured
@@ -67,9 +67,13 @@ function drawImage() {
 }
 
 function drawText() {
-    if (!getMemeImgId()) clearCanvas()
+    if (isNaN(getMemeImgId())) clearCanvas()
 
     const lines = getMemeLines()
+    if (!lines.length) {
+        clearCanvas()
+        return
+    }
     let lineIdx = getMemeSelectedLineIdx()
     if (isNaN(lineIdx)) lineIdx = lines.findIndex(line => line !== 'empty')
     setTextPreferences(lineIdx)
@@ -150,7 +154,7 @@ function onCanvasSelection(ev) {
 
 // fits for rectangles only
 function isInsideArea(x, y, rect) {
-    
+
     if (rect.x1 <= x && x <= rect.x2 && 
         rect.y1 <= y && y <= rect.y2) {
             

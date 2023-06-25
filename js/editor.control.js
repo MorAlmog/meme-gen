@@ -50,7 +50,6 @@ function onSetAlignText(align) {
 }
 
 function onSetFont(font) {
-    console.log('new font', font);
     setMemeFont(font)
     if (getMemeImgId() || getMemeLines().length) drawCanvas()
 }
