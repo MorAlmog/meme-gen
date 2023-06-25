@@ -1,5 +1,7 @@
 .main-header {
     height: 50px;
+    margin-inline-start: 2em;
+    margin-top: 1em;
 }
 
 .main-header .logo {
@@ -27,6 +29,10 @@
 
 .main-header .main-nav a:last-child {
     margin-inline-end: 7rem;
+}
+
+.main-header li {
+    font-size: 1.5rem;
 }
 
 /* .main-header .main-nav > li:not(:last-child) {

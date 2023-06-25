@@ -19,3 +19,12 @@ canvas {
     border: solid black 1px;
     background-color: white;
 }
+
+button {
+    border: none;
+    font-size: 2em;
+}
+
+.input-container > *:not('.text-input') {
+    border: none;
+}

@@ -1,0 +1,28 @@
+.meme-editor-container {
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 3rem;
+}
+
+.editor {
+    width: clamp(200px, 20vw ,300px);
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.editor .text-input-container, .text-input {
+    width: 100%;
+}
+
+.input-container > *:not('.text-input') {
+    border: none;
+}
+
+.colour-picker {
+    border: none;
+}
+
+.font-selection, .font-selection-container {
+    width: clamp(60px, 70%, 10rem)
+}

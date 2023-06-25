@@ -10,6 +10,7 @@
 /* COMPONENTS */
 @import url("components/main-header.css");
 @import url("components/logo.css");
+@import url("components/editor.css");
 
 /* MQ */
 /* @import url("basics/mq.css"); */

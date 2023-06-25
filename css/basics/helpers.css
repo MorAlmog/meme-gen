@@ -4,12 +4,20 @@
     display: flex;
 }
 
+.flex.wrap {
+    flex-wrap: wrap;
+}
+
 .flex.space-between {
     justify-content: space-between;
 }
 
 .flex.align-center {
     align-items: center;
+}
+
+.flex.input-container {
+    gap: 2em;
 }
 
 .grid {
