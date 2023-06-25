@@ -20,6 +20,13 @@ function onAddLine() {
     addMeMeLine(txt, colour, strokeColour)
 }
 
+function onRemoveLine() {
+    removeMemeLine()
+    const txt = getMemeText()
+    document.querySelector('.text-input').value = txt
+    drawCanvas()
+}
+
 function onSetTextColour(colour) {
     setMemeTextColour(colour)
     drawCanvas()
@@ -37,15 +44,14 @@ function onChangeTextSize(change) {
 }
 
 function onSetAlignText(align) {
-    console.log('align:', align);
     setMemeTextAlign(align)
     drawCanvas()
+    calculateTextArea(getMemeText())
 }
 
 function onSetFont(font) {
     console.log('new font', font);
     setMemeFont(font)
-    console.log(getMemeFont());
     if (getMemeImgId() || getMemeLines().length) drawCanvas()
 }
 

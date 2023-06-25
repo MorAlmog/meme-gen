@@ -8,6 +8,7 @@ function onInit() {
     gCtx = gCanvas.getContext('2d')
     renderGallery()
     renderFontSelection()
+    gCanvas.addEventListener('click', onCanvasSelection)
 }
 
 function toggleHidden(sectionId) {
@@ -17,7 +18,10 @@ function toggleHidden(sectionId) {
 }
 
 function onGetText(txt) {
+    const lines = getMemeLines()
+    if (!lines.length) onAddLine() 
     setMemeText(txt)
+    calculateTextArea(txt)
     drawCanvas()
 }
 
@@ -63,15 +67,19 @@ function drawImage() {
 }
 
 function drawText() {
-
     if (!getMemeImgId()) clearCanvas()
-    setTextPreferences()
 
     const lines = getMemeLines()
+    let lineIdx = getMemeSelectedLineIdx()
+    if (isNaN(lineIdx)) lineIdx = lines.findIndex(line => line !== 'empty')
+    setTextPreferences(lineIdx)
+
     for (let i = 0 ; i < lines.length ; i++) {
+        if (lines[i] === 'empty') continue
+
         let txt = getMemeText(i)
-        let x = calculateAxisX()
-        let y = calculateAxisY(i)
+        let x = getMemeAxisX(i)
+        let y = getMemeAxisY(i)
         gCtx.fillText(txt, x, y)
         gCtx.strokeText(txt, x, y)
     }
@@ -83,12 +91,12 @@ function downloadCanvas(elLink) {
     elLink.download = 'meme-review(clap-clap)'
 }
 
-function setTextPreferences() {
-    gCtx.font = `${getMemeTextSize()}px ${getMemeFont()}`
-    gCtx.strokeStyle = getMemeTextStrokeColour()
-    gCtx.fillStyle = getMemeTextColour()
+function setTextPreferences(lineIdx) {
+    gCtx.font = `${getMemeTextSize(lineIdx)}px ${getMemeFont()}`
+    gCtx.strokeStyle = getMemeTextStrokeColour(lineIdx)
+    gCtx.fillStyle = getMemeTextColour(lineIdx)
     gCtx.lineWidth = 2
-    gCtx.textAlign = getMemeTextAlign()
+    gCtx.textAlign = getMemeTextAlign(lineIdx)
 
 }
 
@@ -111,29 +119,66 @@ function calculateAxisY(idx) {
     return y
 }
 
-function calculateAxisX() {
-    let x, space = 15
-    
-    switch (gCtx.textAlign) {
-        case 'right':
-            x = gCanvas.width - space
-            break
-        case 'left':
-            x = space
-            break
-        case 'center':
-            x = gCanvas.width / 2
-    }
-    
-    return x
-}
-
 function calculateTextArea(txt) {
     const metrics = gCtx.measureText(txt)
+    let x = getMemeAxisX()
+    let y = getMemeAxisY()
     let x1, x2, y1, y2
-    x1 = metrics.actualBoundingBoxLeft
-    x2 = metrics.actualBoundingBoxRight
-    y1 = metrics.fontBoundingBoxDescent
-    y2 = metrics.fontBoundingBoxAscent
+    x1 = x - metrics.actualBoundingBoxLeft
+    x2 = x + metrics.actualBoundingBoxRight
+    y1 = y - (metrics.fontBoundingBoxAscent - metrics.fontBoundingBoxDescent)
+    y2 = y
     setTextArea(x1, x2, y1, y2)
 }
+
+/////////////// EVENT LISTENERES ////////////////
+
+const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
+
+function onCanvasSelection(ev) {
+    const {x, y} = getEvPos(ev)
+    const lines = getMemeLines()
+    const selectedLineIdx = lines.findIndex(line => {
+        if (line === 'empty') return false
+        else return isInsideArea(x, y, line.area)  
+    })
+    if (selectedLineIdx === -1) return 
+    setMemeSelectedLineIdx(selectedLineIdx)
+    const txt = getMemeText(selectedLineIdx)
+    document.querySelector('.text-input').value = txt
+}
+
+// fits for rectangles only
+function isInsideArea(x, y, rect) {
+    
+    if (rect.x1 <= x && x <= rect.x2 && 
+        rect.y1 <= y && y <= rect.y2) {
+            
+            return true
+
+        } 
+    
+    return false
+}
+
+function getEvPos(ev) {
+
+    let pos = {
+      x: ev.offsetX,
+      y: ev.offsetY,
+    }
+
+    // mobile and tablet support
+    if (TOUCH_EVS.includes(ev.type)) {
+      // Prevent triggering the mouse ev
+      ev.preventDefault()
+      // Gets the first touch point
+      ev = ev.changedTouches[0]
+      // Calc the right pos according to the touch screen
+      pos = {
+        x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+        y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
+      }
+    }
+    return pos
+  }

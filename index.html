@@ -47,8 +47,9 @@
             <button title="Increase Text Size" class="text-size-up pointer" onclick="onChangeTextSize(4)"><i class="fa-solid fa-font"></i>+</button>
             <button title="Decrease Text Size" class="text-size-down pointer" onclick="onChangeTextSize(-4)"><i class="fa-solid fa-font"></i>-</button>
 
-            <!-- add lines -->
+            <!-- add/remove lines -->
             <button title="Add Another Text Line" class="add-line pointer" onclick="onAddLine()"><i class="fa-solid fa-plus"></i></button>
+            <button title="Delete Selected Text Line" class="remove-line pointer" onclick="onRemoveLine()"><i class="fa-solid fa-minus"></i></button>
 
             <!-- text align -->
             <button title="Text Align Left" class="button text-align-left pointer" onclick="onSetAlignText('left')"><i class="fa-solid fa-align-left"></i></button>
@@ -83,7 +84,8 @@
 
     <!-- ABOUT -->
     <section class="centered hidden" id="about">
-        <h1>ABOUT</h1>
+        <h1>MADE BY MOR ALMOG</h1>
+        <h class="hidden">beep bup boop ahttt</h>
     </section>
 
     <script src="js/services/my_lib.js"></script>

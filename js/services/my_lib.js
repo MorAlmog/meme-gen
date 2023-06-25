@@ -156,7 +156,6 @@ function numToArray(num) {
     for(let i = 0 ; i < arr.length ; i++) {
         arr[i] = Number(arr[i]);
     }
-    console.log(arr);
     return arr;
 }
 
